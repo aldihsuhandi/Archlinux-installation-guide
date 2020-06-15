@@ -4,11 +4,11 @@
 </div>
 </br>
 
-#wifi
+# wifi
 wifi-menu </br>
 </br>
 
-#configuring disk partition</br>
+# configuring disk partition</br>
 
 ```
 /* -- drive naming scheme -- */
@@ -45,30 +45,30 @@ w <--- write current config to drive
 
 </br>
 
-#formating the partition</br>
+# formating the partition</br>
 mkfs.fat -F32 /dev/sdX1 or nvmenXp1/ <--- configuring partition 1 as FAT32</br>
 mkfs.ext4 /dev/sdX3 or nvmenXp3/ <--- configuring partition 2 as linux directory</br>
 mkfs.ext4 /dev/sdX4 or nvmenXp4/ <--- configuring partition 3 as home directory</br>
 </br>
-#Mouting</br>
+# Mouting</br>
 mount /dev/sdX3 or nvmenXp3/ /mnt <--- mounting the partition 2 as linux directory</br>
 mkdir /mnt/home/ <--- creating directory to mount home directory</br>
 mount /dev/sdX4 or nvmenXp4/ /mnt/home/ <--- mounting the parititon 3 as home directory</br>
-##Mounting other hardrive</br>
+## Mounting other hardrive</br>
 mkdir -p /mnt/media/disk1 <--- creating mounting point for one drive</br>
 mount /dev/sdXY or nvmenXpY/ /mnt/media/disk1 <--- mounting drive to the mounting point</br>
 mount | grep /sda or nvme/ <--- checking if the mounting positition is correct or not</br>
 </br>
-##setting up SWAP</br>
+## setting up SWAP</br>
 [What is Linux Swap](https://averagelinuxuser.com/linux-swap/)</br>
 mkswap /dev/sdX2 or nvmenXp2
 swapon /dev/sdX2 or nvmenXp2
 </br>
-#selecting mirror</br>
+# selecting mirror</br>
 vim /etc/pacman.d/mirrorlist <--- delete mirrorlist that is outside your country
 </br>
 </br>
-#installing arch linux to hard drive</br>
+# installing arch linux to hard drive</br>
 pacstrap -i /mnt base linux linux-firmware</br>
 
 ```
@@ -79,17 +79,17 @@ default <--- continue with the intallation
 
 </br>
 
-#Configuring the system</br>
+# Configuring the system</br>
 genfstab -U /mnt >> /mnt/etc/fstab <--- generate fstab file</br>
 cat /mnt/etc/fstab <--- check if the partition mounting correct or not</br>
 arch-chroot /mnt <--- change root to arch installation</br>
 </br>
-##time zone</br>
+## time zone</br>
 pacman -S vim gvim<--- installing default text-editor</br>
 ln -sf /usr/share/zoneinfo/Region/City /etc/localtime <--- selecting the time zone</br>
 hwclock --systohc <--- generate adjtime file</br>
 </br>
-##localization</br>
+## localization</br>
 vim /etc/locale.gen <--- open locale.gen file with text editor</br>
 
 ```
@@ -109,12 +109,12 @@ LANG=en_US.UTF-8 #for american english
 
 </br>
 
-##installing package</br>
+## installing package</br>
 pacman -S base-devel grub efibootmgr dosfstools os-prober mtools linux-headers <--- boot package</br>
 pacman -S network-manager-applet networkmanager wireless\_tools wpa\_supplicant dialog <--- networking package</br>
 pacman -S linux-lts linus-lts-headers <--- optional</br>
 </br>
-##EFI setup</br>
+## EFI setup</br>
 mkdir /boot/EFI <--- making boot EFI directory</br>
 mount /dev/sdX1 or nvmenXp1/ /boot/EFI <--- mounting the partition 1 to boot EFI directory</br>
 grub-install --target=x86\_64-efi --bootloader-id=grub-uefi --recheck <--- installing grub boot manager</br>
@@ -123,22 +123,22 @@ mkdir -p /boot/grub/locale <--- making directory</br>
 cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo <--- copy file to grub directory</br>
 grub-mkconfig -o /boot/grub/grub.cfg <--- generating grub config</br>
 </br>
-##root password</br>
+## root password</br>
 passwd</br>
 </br>
-##finishing up the installation</br>
+## finishing up the installation</br>
 exit <--- exit the arch environment</br>
 umount -a <--- unmount everything (if you got a warning dont worry)</br>
 reboot</br>
 </br>
-#Customizing the installation</br>
-##enabling the network</br>
+# Customizing the installation</br>
+## enabling the network</br>
 systemctl enable NetworkManager</br>
 systemctl start NetworkManager</br>
 connect your computer to wired internet connection</br>
 (you can use your phone usb tethering if your computer don't have rj45 port)</br>
 </br>
-##enabling multilib repository</br>
+## enabling multilib repository</br>
 vim /etc/pacman.conf <-- opening pacman.conf file with text editor</br>
 
 ```
@@ -149,11 +149,11 @@ remove the '#' symbol
 ```
 </br>
 
-##installing xorg package</br>
+## installing xorg package</br>
 pacman -Syyy <-- making sure repository index in up to date</br>
 pacman -S xorg-server <-- installing xorg package</br>
 </br>
-##installing video driver</br>
+## installing video driver</br>
 lspci <--- list of every pcie device on your computer</br>
 lspci | grep VGA <--- list of every graphics card / integrated gpu on your device</br>
 
@@ -166,7 +166,7 @@ pacman -S nvidia nvidia-libgl mesa</br>
 pacman -S lib32-nvidia-utils lib32-nvidia-libgl lib32-mesa-demos libva-vdpau-driver nvidia-settings</br>
 pacman -S nvidia-lts (optional but you need it if you install lts kernel)</br>
 </br>
-##creating an user</br>
+## creating an user</br>
 useradd -m -g users -G wheel USERNAME <--- creating an user</br>
 passwd USERNAME <--- creating password for user</br>
 vim /etc/sudoers</br>
@@ -183,7 +183,7 @@ USERNAME ALL=(ALL) ALL <-- add this line to your /etc/sudoers/ file
 
 </br>
 
-##installing bluetooth</br>
+## installing bluetooth</br>
 pacman -S bluez bluez-libs bluez-utils pulseaudio-bluetooth</br>
 systemctl enable bluetooth</br>
 systemctl start bluetooth</br>
@@ -196,7 +196,7 @@ exit
 ```
 </br>
 
-##installing desktop mananger</br>
+## installing desktop mananger</br>
 
 ```
 GDM - Gnome dekstop manager
@@ -210,7 +210,7 @@ pacman -S DesktopManagerOfChoice <--- installing desktop manager package</br>
 systemctl enable DesktopManagerOfChoice <--- enabling dekstop manager</br>
 </br>
 
-##installing desktop environment</br>
+## installing desktop environment</br>
 <b>GNOME</b></br>
 pacman -S gnome gnome-terminal nautilus gnome-tweaks gnome-control-center gnome-backgrounds</br>
 <b>XFCE</b></br>
@@ -218,7 +218,7 @@ pacman -S xfce4 xfce4-goodies xfce-terminal</br>
 <b>KDE Plasma</b></br>
 pacman -S plasma konsole dolphin spectacle kdeconnect</br>
 </br>
-##installing optional packages</br>
+## installing optional packages</br>
 sudo pacman -S kate gedit firefox</br>
 sudo pacman -S winetricks <--- for running windows application on linux</br>
 </br>
