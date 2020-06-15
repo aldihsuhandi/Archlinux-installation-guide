@@ -61,8 +61,8 @@ mount | grep /sda or nvme/ <--- checking if the mounting positition is correct o
 </br>
 ## setting up SWAP</br>
 [What is Linux Swap](https://averagelinuxuser.com/linux-swap/)</br>
-mkswap /dev/sdX2 or nvmenXp2
-swapon /dev/sdX2 or nvmenXp2
+mkswap /dev/sdX2 or nvmenXp2<br>
+swapon /dev/sdX2 or nvmenXp2<br>
 </br>
 # selecting mirror</br>
 vim /etc/pacman.d/mirrorlist <--- delete mirrorlist that is outside your country
