@@ -36,7 +36,7 @@ n <--- new partition
 //Recommended setup (separating home directory and arch linux directory)
 partition 1 = default default +300M
 partition 2 = default default +(ramvalue)G
-partition 3 = default default +(ramvalue * 4)G
+partition 3 = default default +(ramvalue * 3)G
 partition 4 = default default default
 
 i <--- list current partition
