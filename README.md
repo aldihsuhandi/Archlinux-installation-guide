@@ -22,8 +22,8 @@ example:
 /* -- drive naming scheme -- */
 ```
 
-fdisk -l #list every drive exist in machine</br> 
-fdisk /dev/sdXY or nvmenXpY #accessing drive to create partition</br>
+lsblk #list every drive exist in machine</br> 
+fdisk /dev/sdXY or nvmenXpY #accessing drive to create and erase partition</br>
 
 ```
 m <--- help menu
@@ -39,21 +39,21 @@ partition 2 = default default +(ramvalue)G
 partition 3 = default default +(minimal 30)G
 partition 4 = default default default
 
-i <--- list current partition
+p <--- print current partition
 w <--- write current config to drive
 ```
 
 </br>
 
 # formating the partition</br>
-mkfs.fat -F32 /dev/sdX1 or nvmenXp1 <--- configuring partition 1 as FAT32</br>
-mkfs.ext4 /dev/sdX3 or nvmenXp3 <--- configuring partition 3 as ext4 partition</br>
-mkfs.ext4 /dev/sdX4 or nvmenXp4 <--- configuring partition 4 as ext4 partition</br>
+mkfs.fat -F32 /dev/sdX1 or nvmenXp1 <--- configuring partition 1 as a FAT32 partition</br>
+mkfs.ext4 /dev/sdX3 or nvmenXp3 <--- configuring partition 3 as an ext4 partition</br>
+mkfs.ext4 /dev/sdX4 or nvmenXp4 <--- configuring partition 4 as an ext4 partition</br>
 </br>
 # Mouting</br>
-mount /dev/sdX3 or nvmenXp3 /mnt <--- mounting the partition 2 as linux directory</br>
+mount /dev/sdX3 or nvmenXp3 /mnt <--- mounting the partition 3 as linux directory</br>
 mkdir /mnt/home <--- creating directory to mount home directory</br>
-mount /dev/sdX4 or nvmenXp4 /mnt/home <--- mounting the parititon 3 as home directory</br>
+mount /dev/sdX4 or nvmenXp4 /mnt/home <--- mounting the parititon 4 as home directory</br>
 ## Mounting other hardrive</br>
 mkdir -p /mnt/media/disk1 <--- creating mounting point for one drive</br>
 mount /dev/sdXY or nvmenXpY /mnt/media/disk1 <--- mounting drive to the mounting point</br>
@@ -69,7 +69,7 @@ vim /etc/pacman.d/mirrorlist <--- delete mirrorlist that is outside your country
 </br>
 </br>
 # installing arch linux to hard drive</br>
-pacstrap -i /mnt base linux linux-firmware</br>
+pacstrap -i /mnt base linux linux-firmware gvim github</br> //you can use nano if you want to
 
 ```
 default <--- accept all package
@@ -85,7 +85,6 @@ cat /mnt/etc/fstab <--- check if the partition mounting correct or not</br>
 arch-chroot /mnt <--- change root to arch installation</br>
 </br>
 ## time zone</br>
-pacman -S vim gvim<--- installing default text-editor</br>
 ln -sf /usr/share/zoneinfo/Region/City /etc/localtime <--- selecting the time zone</br>
 hwclock --systohc <--- generate adjtime file</br>
 </br>
