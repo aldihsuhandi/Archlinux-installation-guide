@@ -2,6 +2,7 @@
 <h1>warning don't turn off your computer during the installation</br>
 (except when the guide told you to)</h1>
 </div>
+this installation guide only work with uefi enabled motherboard<br>
 </br>
 
 # wifi
