@@ -36,7 +36,7 @@ n <--- new partition
 //Recommended setup (separating home directory and arch linux directory)
 partition 1 = default default +300M
 partition 2 = default default +(ramvalue)G
-partition 3 = default default +(ramvalue * 3)G
+partition 3 = default default +(minimal 30)G
 partition 4 = default default default
 
 i <--- list current partition
@@ -47,8 +47,8 @@ w <--- write current config to drive
 
 # formating the partition</br>
 mkfs.fat -F32 /dev/sdX1 or nvmenXp1 <--- configuring partition 1 as FAT32</br>
-mkfs.ext4 /dev/sdX3 or nvmenXp3 <--- configuring partition 2 as linux directory</br>
-mkfs.ext4 /dev/sdX4 or nvmenXp4 <--- configuring partition 3 as home directory</br>
+mkfs.ext4 /dev/sdX3 or nvmenXp3 <--- configuring partition 3 as ext4 partition</br>
+mkfs.ext4 /dev/sdX4 or nvmenXp4 <--- configuring partition 4 as ext4 partition</br>
 </br>
 # Mouting</br>
 mount /dev/sdX3 or nvmenXp3 /mnt <--- mounting the partition 2 as linux directory</br>
