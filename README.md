@@ -46,7 +46,7 @@ w <--- write current config to drive
 
 </br>
 
-# formating the partition</br>
+# formating the partitions</br>
 mkfs.fat -F32 /dev/sdX1 or nvmenXp1 <--- configuring partition 1 as a FAT32 partition</br>
 mkfs.ext4 /dev/sdX3 or nvmenXp3 <--- configuring partition 3 as an ext4 partition</br>
 mkfs.ext4 /dev/sdX4 or nvmenXp4 <--- configuring partition 4 as an ext4 partition</br>
@@ -70,7 +70,7 @@ vim /etc/pacman.d/mirrorlist <--- delete mirrorlist that is outside your country
 </br>
 </br>
 # installing arch linux to hard drive</br>
-pacstrap -i /mnt base linux linux-firmware gvim github</br> //you can use nano if you want to
+pacstrap -i /mnt base linux linux-firmware gvim git</br> //you can use nano if you want to
 
 ```
 default <--- accept all package
@@ -80,7 +80,7 @@ default <--- continue with the intallation
 
 </br>
 
-# Configuring the system</br>
+# Configuring system</br>
 genfstab -U /mnt >> /mnt/etc/fstab <--- generate fstab file</br>
 cat /mnt/etc/fstab <--- check if the partition mounting correct or not</br>
 arch-chroot /mnt <--- change root to arch installation</br>
@@ -109,7 +109,7 @@ LANG=en_US.UTF-8 #for american english
 
 </br>
 
-## installing package</br>
+## installing packages</br>
 pacman -S base-devel grub efibootmgr dosfstools os-prober mtools linux-headers <--- boot package</br>
 pacman -S network-manager-applet networkmanager wireless\_tools wpa\_supplicant dialog <--- networking package</br>
 pacman -S linux-lts linus-lts-headers <--- optional</br>
