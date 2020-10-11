@@ -130,7 +130,7 @@ mount /dev/sdX1 or nvmenXp1 /boot/EFI <--- mounting the partition 1 to boot EFI 
 grub-install --target=x86\_64-efi --bootloader-id=grub-uefi --recheck <--- installing grub boot manager</br>
 </br>
 mkdir -p /boot/grub/locale <--- making directory</br>
-cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo <--- copy file to grub directory</br>
+cp /usr/share/locale/en\\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo <--- copy file to grub directory</br>
 grub-mkconfig -o /boot/grub/grub.cfg <--- generating grub config</br>
 </br>
 ## root password</br>
