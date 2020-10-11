@@ -6,7 +6,17 @@ this installation guide only work with uefi enabled motherboard<br>
 </br>
 
 # wifi
-wifi-menu </br>
+iwctl</br>
+
+```
+[iwd]# device list
+// REPLACE 'DEVICE' WITH YOUR WIFI DEVICE
+[iwd]# station DEVICE scan
+[iwd]# station DEVICE get-networks
+[iwd]# station DEVICE connect NETWORK-SSID
+[iwd]# exit
+```
+
 </br>
 
 # configuring disk partition</br>
@@ -66,7 +76,7 @@ mkswap /dev/sdX2 or nvmenXp2<br>
 swapon /dev/sdX2 or nvmenXp2<br>
 </br>
 # selecting mirror</br>
-vim /etc/pacman.d/mirrorlist <--- delete mirrorlist that is outside your country
+reflector --country COUNTRY --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist <--- change COUNTRY to your country
 </br>
 </br>
 # installing arch linux to hard drive</br>
