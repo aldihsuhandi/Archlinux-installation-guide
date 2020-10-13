@@ -121,7 +121,7 @@ LANG=en_US.UTF-8 #for american english
 
 ## installing packages</br>
 pacman -S base-devel grub efibootmgr dosfstools os-prober mtools linux-headers <--- boot package</br>
-pacman -S network-manager-applet networkmanager wireless\_tools wpa\_supplicant dialog <--- networking package</br>
+pacman -S network-manager-applet networkmanager wireless\_tools wpa\_supplicant dialog iwd<--- networking package</br>
 pacman -S linux-lts linus-lts-headers <--- optional</br>
 </br>
 ## EFI setup</br>
