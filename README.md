@@ -8,7 +8,7 @@ this installation guide only work with uefi enabled motherboard<br>
 # Wi-Fi Configuration 
 - `iwctl`</br>
 
-```shell
+```
 [iwd]# device list
 // REPLACE 'DEVICE' WITH YOUR WIFI DEVICE
 [iwd]# station DEVICE scan
@@ -21,7 +21,7 @@ this installation guide only work with uefi enabled motherboard<br>
 
 # Configuring Disk Partition</br>
 
-Drive naming Scheme  =  `sdXY` or `nvmenXpY` 
+Drive naming Scheme  =  `sdXY` for SATA drive and `nvmenXpY` for NVME drive<br>
 
 where,
 
@@ -164,7 +164,7 @@ hwclock --systohc <--- generate adjtime file</br>
 
 ## Localization</br>
 
-Open locale.gen file with text editor - `vim/etc/locale.gen`
+Open locale.gen file with text editor - `vim /etc/locale.gen`
 
 ```
 #uncomment
@@ -333,7 +333,7 @@ Installing desktop manager package
 `pacman -S DesktopManagerofChoice`
 
 Enabling desktop manager
-`systemcyl enable DesktopManagerofChoice`
+`systemctl enable DesktopManagerofChoice`
 
 </br>
 
