@@ -334,7 +334,7 @@ Installing desktop manager package</br>
 
 
 Enabling desktop manager</br>
-`systemcyl enable DesktopManagerofChoice`
+`systemctl enable DesktopManagerofChoice`
 
 
 </br>
