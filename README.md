@@ -39,7 +39,7 @@ Commands:
 
 - `lsblk`  
 	lists every drive exist in machine</br> 
-- `fdisk /dev/sdXY` or `nvmenXpY` 
+- `fdisk /dev/sdXY` or `nvmenXpY`  
 	accesses drive to create and erase partition</br>
 
 ```
@@ -144,22 +144,23 @@ Generating fstab file
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
-Check if the partition mounting is correct
+Check if the partition mounting is correct<br>
 	`cat /mnt/etc/fstab`
 
-Change root to arch installation
+Change root to arch installation<br>
 	`arch-chroot /mnt`
 
 
 
 ## Setting System Time Zone</br>
-Selecting the time zone 
+Selecting the time zone <br>
 `ln -sf /usr/share/zoneinfo/Region/City /etc/localtime` 
 
-Generate adjtime file
+Generate adjtime file<br>
 `hwclock --stohc`
 
-hwclock --systohc <--- generate adjtime file</br>
+Generate adjtime file<br>
+`hwclock --systohc`
 </br>
 
 ## Localization</br>
@@ -171,13 +172,11 @@ Open locale.gen file with text editor - `vim/etc/locale.gen`
 en_US.UTF-8
 yourCountryCode.yourCountryTimeCode
 ```
-
 </br>
-
-Generate the changes made to locale.gen file
+Generate the changes made to locale.gen file</br>
 `locale-gen` 
 
-Open locale.conf file with text editor
+Open locale.conf file with text editor</br>
 `vim /etc/locale.conf`
 
 ```
@@ -209,21 +208,22 @@ pacman -S linux-lts linus-lts-headers
 
 
 ## EFI Setup</br>
-1. Making boot EFI directory
+1. Making boot EFI directory</br>
 	`mkdir /boot/EFI` <--- making boot EFI directory</br>
 
-2. Mounting partition `1` to boot EFI directory
+2. Mounting partition `1` to boot EFI directory</br>
 	`mount /dev/sdX1 or nvmenXp1 /boot/EFI` 
 
-3. Installing grub boot manager
+3. Installing grub boot manager</br>
 	`grub-install --target=x86\_64-efi --bootloader-id=grub-uefi --recheck`
 
-4. Making locale directory
+4. Making locale directory</br>
 	`mkdir -p /boot/grub/locale` 
 
-5. Copy file to grub directory
+5. Copy file to grub directory</br>
 	`cp /usr/share/locale/en\\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo`
-6. Generate grub config
+	
+6. Generate grub config</br>
 	`grub-mkconfig -o /boot/grub/grub.cfg`
 
 ## Root Password</br>
@@ -231,9 +231,9 @@ pacman -S linux-lts linus-lts-headers
 </br>
 
 ## Finishing Up the Installation</br>
-1. Exit arch environment
-	`exit` <--- exit the arch environment</br>
-2. Unmount everything (don't worry if you got a warning)
+1. Exit arch environment</br>
+	`exit`
+2. Unmount everything (don't worry if you got a warning)</br>
 	`umount -a` 
 3. `reboot`</br>
 	</br>
@@ -258,17 +258,17 @@ remove the '#' symbol
 </br>
 
 ## Installing xorg Package</br>
-Make sure repository index is up to date
+Make sure repository index is up to date</br>
 `pacman -Syyy`
 
-Install xorg package
+Install xorg package</br>
 `pacman -S xorg-server`
 
 ## Installing Video Driver</br>
-List every PCIE device on your computer
+List every PCIE device on your computer</br>
 `lspci`
 
-List every graphic card/integrated gpu on your device
+List every graphic card/integrated gpu on your device</br>
 `lspci | grep VGA` 
 
 <b>intel</b></br>
@@ -284,11 +284,11 @@ List every graphic card/integrated gpu on your device
 </br>
 
 ## Creating a User</br>
-Creating a user
-`useradd -m -g users -G wheel USERNAME` 
+Creating a user</br>
+`useradd -m -g users -G wheel USERNAME` </br>
 Replace USERNAME with your username</br>
 
-Creating password for user
+Creating password for user</br>
 `passwd USERNAME`
 
 
@@ -329,10 +329,10 @@ Desktop Manager (choose one)
 - MDM - Linux mint desktop manager
 - SDDM - KDE desktop manager
 
-Installing desktop manager package
+Installing desktop manager package</br>
 `pacman -S DesktopManagerofChoice`
 
-Enabling desktop manager
+Enabling desktop manager</br>
 `systemcyl enable DesktopManagerofChoice`
 
 </br>
