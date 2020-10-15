@@ -5,10 +5,10 @@
 this installation guide only work with uefi enabled motherboard<br>
 </br>
 
-# wifi
-iwctl</br>
+# Wi-Fi Configuration 
+- `iwctl`</br>
 
-```
+```shell
 [iwd]# device list
 // REPLACE 'DEVICE' WITH YOUR WIFI DEVICE
 [iwd]# station DEVICE scan
@@ -19,22 +19,28 @@ iwctl</br>
 
 </br>
 
-# configuring disk partition</br>
+# Configuring Disk Partition</br>
 
-```
-/* -- drive naming scheme -- */
-sd = sata drive
-nvme = nvme drive
-X = hard drive your
-Y = partition code in that hardrive
-example:
-    sda1 <--- first partition of sata drive a
-    nvmen1p2 <--- second partition of nvme drive 1
-/* -- drive naming scheme -- */
-```
+Drive naming Scheme  =  `sdXY` or `nvmenXpY` 
 
-lsblk #list every drive exist in machine</br> 
-fdisk /dev/sdXY or nvmenXpY #accessing drive to create and erase partition</br>
+where,
+
+- `sd` - SATA drive
+- `nvme` - NVMe drive
+- `X` - Replace `X` with your hard drive
+- `Y` - Replace `Y` with the partition code in hard drive `X`
+
+Example: 
+
+- `sda1` - first partition of SATA drive `a`
+- `nvmen1p2` - second partition of NVMe drive `1`
+
+Commands:
+
+- `lsblk`  
+	lists every drive exist in machine</br> 
+- `fdisk /dev/sdXY` or `nvmenXpY` 
+	accesses drive to create and erase partition</br>
 
 ```
 m <--- help menu
@@ -56,31 +62,72 @@ w <--- write current config to drive
 
 </br>
 
-# formating the partitions</br>
-mkfs.fat -F32 /dev/sdX1 or nvmenXp1 <--- configuring partition 1 as a FAT32 partition</br>
-mkfs.ext4 /dev/sdX3 or nvmenXp3 <--- configuring partition 3 as an ext4 partition</br>
-mkfs.ext4 /dev/sdX4 or nvmenXp4 <--- configuring partition 4 as an ext4 partition</br>
-</br>
-# Mouting</br>
-mount /dev/sdX3 or nvmenXp3 /mnt <--- mounting the partition 3 as linux directory</br>
-mkdir /mnt/home <--- creating directory to mount home directory</br>
-mount /dev/sdX4 or nvmenXp4 /mnt/home <--- mounting the parititon 4 as home directory</br>
-## Mounting other hardrive</br>
-mkdir -p /mnt/media/disk1 <--- creating mounting point for one drive</br>
-mount /dev/sdXY or nvmenXpY /mnt/media/disk1 <--- mounting drive to the mounting point</br>
-mount | grep /sda or nvme <--- checking if the mounting positition is correct or not</br>
-</br>
-## setting up SWAP</br>
+# Formatting Partitions</br>
+- Configuring partition `1` of drive `X` as a FAT32 partition:
+
+	​	`mkfs.fat -F32 /dev/sdX1` or `mkfs.fat -F32 /dev/nvmenXp1`
+
+- Configuring partition `3` of drive `X` as a ext4 partition:
+
+	​	`mkfs.ext4 /dev/sdX3` or `mkfs.ext4 /dev/nvmenXp3`
+
+- Configuring partition `4` of drive `X` as a ext4 partition:
+
+	​	`mkfs.ext4 /dev/sdX4` or `mkfs.ext4 /dev/nvmenXp4`
+
+
+
+# Mounting</br>
+- Mounting partition 3 as a Linux directory.
+
+	`mount /dev/sdX3 or nvmenXp3 /mnt` </br>
+
+- Creating a directory to mount home directory
+
+	`	mkdir /mnt/home` </br>
+
+- Mounting partition 4 as home directory
+
+	`mount /dev/sdX4` or `nvmenXp4 /mnt/home`</br>
+
+## Mounting Other Hard Drive</br>
+- Creating mounting point for one drive
+
+	​	`mkdir -p/mnt/media/disk1`
+
+- Mounting drive to the mounting point
+
+	​	`mount /dev/sdXY` or `nvmenXpY /mnt/media/disk1`
+
+- Checking if the mounting position is correct
+
+	​	`mount | grep /sda` or `mount | grep /nvmen1`
+
+
+
+## Setting up SWAP</br>
+
 [What is Linux Swap](https://averagelinuxuser.com/linux-swap/)</br>
-mkswap /dev/sdX2 or nvmenXp2<br>
-swapon /dev/sdX2 or nvmenXp2<br>
+`mkswap /dev/sdX2` or `mkswap /dev/nvmenXp2`<br>`swapon /dev/sdX2` or `swapon /dev/nvmenXp2`<br>
 </br>
-# selecting mirror</br>
-reflector --country COUNTRY --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist <--- change COUNTRY to your country
+
+# Selecting Mirror Server</br>
+Change the mirror server used for package manager
+
+```shell
+reflector --country COUNTRY --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+```
+
+change `COUNTRY` to your country
 </br>
 </br>
-# installing arch linux to hard drive</br>
-pacstrap -i /mnt base linux linux-firmware gvim git</br> //you can use nano if you want to
+
+# Installing Arch Linux to Hard Drive</br>
+```shell
+pacstrap -i /mnt base linux linux-firmware gvim git
+```
+
+You can use `nano` if you want to
 
 ```
 default <--- accept all package
@@ -90,17 +137,34 @@ default <--- continue with the intallation
 
 </br>
 
-# Configuring system</br>
-genfstab -U /mnt >> /mnt/etc/fstab <--- generate fstab file</br>
-cat /mnt/etc/fstab <--- check if the partition mounting correct or not</br>
-arch-chroot /mnt <--- change root to arch installation</br>
-</br>
-## time zone</br>
-ln -sf /usr/share/zoneinfo/Region/City /etc/localtime <--- selecting the time zone</br>
+# Configuring System</br>
+Generating fstab file
+
+```shell
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+
+Check if the partition mounting is correct
+	`cat /mnt/etc/fstab`
+
+Change root to arch installation
+	`arch-chroot /mnt`
+
+
+
+## Setting System Time Zone</br>
+Selecting the time zone 
+`ln -sf /usr/share/zoneinfo/Region/City /etc/localtime` 
+
+Generate adjtime file
+`hwclock --stohc`
+
 hwclock --systohc <--- generate adjtime file</br>
 </br>
-## localization</br>
-vim /etc/locale.gen <--- open locale.gen file with text editor</br>
+
+## Localization</br>
+
+Open locale.gen file with text editor - `vim/etc/locale.gen`
 
 ```
 #uncomment
@@ -109,8 +173,12 @@ yourCountryCode.yourCountryTimeCode
 ```
 
 </br>
-locale-gen <--- to generate the changes you made to locale.gen file</br>
-vim /etc/locale.conf <--- open locale.conf file with text editor</br>
+
+Generate the changes made to locale.gen file
+`locale-gen` 
+
+Open locale.conf file with text editor
+`vim /etc/locale.conf`
 
 ```
 #setting the language of the OS
@@ -119,67 +187,112 @@ LANG=en_US.UTF-8 #for american english
 
 </br>
 
-## installing packages</br>
-pacman -S base-devel grub efibootmgr dosfstools os-prober mtools linux-headers <--- boot package</br>
-pacman -S network-manager-applet networkmanager wireless\_tools wpa\_supplicant dialog iwd<--- networking package</br>
-pacman -S linux-lts linus-lts-headers <--- optional</br>
+## Installing Packages</br>
+Boot packages:
+
+```shell
+pacman -S base-devel grub efibootmgr dosfstools os-prober mtools linux-headers
+```
+
+Networking packages:
+
+```shell
+pacman -S network-manager-applet networkmanager wireless_tools wpa_supplicant dialog iwd
+```
+
+Optional:
+
+```shell
+pacman -S linux-lts linus-lts-headers
+```
+
+
+
+## EFI Setup</br>
+1. Making boot EFI directory
+	`mkdir /boot/EFI` <--- making boot EFI directory</br>
+
+2. Mounting partition `1` to boot EFI directory
+	`mount /dev/sdX1 or nvmenXp1 /boot/EFI` 
+
+3. Installing grub boot manager
+	`grub-install --target=x86\_64-efi --bootloader-id=grub-uefi --recheck`
+
+4. Making locale directory
+	`mkdir -p /boot/grub/locale` 
+
+5. Copy file to grub directory
+	`cp /usr/share/locale/en\\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo`
+6. Generate grub config
+	`grub-mkconfig -o /boot/grub/grub.cfg`
+
+## Root Password</br>
+`passwd`</br>
 </br>
-## EFI setup</br>
-mkdir /boot/EFI <--- making boot EFI directory</br>
-mount /dev/sdX1 or nvmenXp1 /boot/EFI <--- mounting the partition 1 to boot EFI directory</br>
-grub-install --target=x86\_64-efi --bootloader-id=grub-uefi --recheck <--- installing grub boot manager</br>
-</br>
-mkdir -p /boot/grub/locale <--- making directory</br>
-cp /usr/share/locale/en\\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo <--- copy file to grub directory</br>
-grub-mkconfig -o /boot/grub/grub.cfg <--- generating grub config</br>
-</br>
-## root password</br>
-passwd</br>
-</br>
-## finishing up the installation</br>
-exit <--- exit the arch environment</br>
-umount -a <--- unmount everything (if you got a warning dont worry)</br>
-reboot</br>
-</br>
-# Customizing the installation</br>
-## enabling the network</br>
-systemctl enable NetworkManager</br>
-systemctl start NetworkManager</br>
+
+## Finishing Up the Installation</br>
+1. Exit arch environment
+	`exit` <--- exit the arch environment</br>
+2. Unmount everything (don't worry if you got a warning)
+	`umount -a` 
+3. `reboot`</br>
+	</br>
+
+# Customizing the Installation</br>
+## Enabling Network</br>
+`systemctl enable NetworkManager`</br>
+`systemctl start NetworkManager`</br>
 connect your computer to wired internet connection</br>
 (you can use your phone usb tethering if your computer don't have rj45 port)</br>
 </br>
-## enabling multilib repository</br>
-vim /etc/pacman.conf <-- opening pacman.conf file with text editor</br>
+
+## Enabling multilib Repository</br>
+Open pacman.conf file with text editor
+`vim /etc/pacman.conf` 
 
 ```
 remove the '#' symbol
 #[multilib]
 #Include = /etc/pacman.d/mirrorlist
-
 ```
 </br>
 
-## installing xorg package</br>
-pacman -Syyy <-- making sure repository index in up to date</br>
-pacman -S xorg-server <-- installing xorg package</br>
-</br>
-## installing video driver</br>
-lspci <--- list of every pcie device on your computer</br>
-lspci | grep VGA <--- list of every graphics card / integrated gpu on your device</br>
+## Installing xorg Package</br>
+Make sure repository index is up to date
+`pacman -Syyy`
+
+Install xorg package
+`pacman -S xorg-server`
+
+## Installing Video Driver</br>
+List every PCIE device on your computer
+`lspci`
+
+List every graphic card/integrated gpu on your device
+`lspci | grep VGA` 
 
 <b>intel</b></br>
-pacman -S xf86-video-intel libgl mesa</br>
+`pacman -S xf86-video-intel libgl mesa`</br>
+
 <b>amd</b></br>
-pacman -S mesa xf86-video-amdgpu</br>
+`pacman -S mesa xf86-video-amdgpu`</br>
+
 <b>nvidia</b></br>
-pacman -S nvidia nvidia-libgl mesa</br>
-pacman -S lib32-nvidia-utils lib32-nvidia-libgl lib32-mesa-demos libva-vdpau-driver nvidia-settings</br>
-pacman -S nvidia-lts (optional but you need it if you install lts kernel)</br>
+`pacman -S nvidia nvidia-libgl mesa`</br>
+`pacman -S lib32-nvidia-utils lib32-nvidia-libgl lib32-mesa-demos libva-vdpau-driver nvidia-setting`s</br>
+`pacman -S nvidia-lts` (optional but you need it if you install LTS kernel)</br>
 </br>
-## creating an user</br>
-useradd -m -g users -G wheel USERNAME <--- creating an user</br>
-passwd USERNAME <--- creating password for user</br>
-vim /etc/sudoers</br>
+
+## Creating a User</br>
+Creating a user
+`useradd -m -g users -G wheel USERNAME` 
+Replace USERNAME with your username</br>
+
+Creating password for user
+`passwd USERNAME`
+
+
+`vim /etc/sudoers`</br>
 
 ```
 ** -- default configuration -- **
@@ -193,11 +306,11 @@ USERNAME ALL=(ALL) ALL <-- add this line to your /etc/sudoers/ file
 
 </br>
 
-## installing bluetooth</br>
-pacman -S bluez bluez-libs bluez-utils pulseaudio-bluetooth</br>
-systemctl enable bluetooth</br>
-systemctl start bluetooth</br>
-bluetoothctl</br>
+## Installing Bluetooth</br>
+`pacman -S bluez bluez-libs bluez-utils pulseaudio-bluetooth`</br>
+`systemctl enable bluetooth`</br>
+`systemctl start bluetooth`</br>
+`bluetoothctl`</br>
 
 ```
 power on
@@ -206,30 +319,38 @@ exit
 ```
 </br>
 
-## installing desktop mananger</br>
+## Installing Desktop Manager</br>
 
-```
-GDM - Gnome dekstop manager
-LightDM - cross desktop display manager
-LXDM - LXDE dekstop manager
-MDM - Linux mint dekstop manager
-SDDM - KDE desktop manager
-```
+Desktop Manager (choose one)
 
-pacman -S DesktopManagerOfChoice <--- installing desktop manager package</br>
-systemctl enable DesktopManagerOfChoice <--- enabling dekstop manager</br>
+- GDM - Gnome desktop manager
+- LightDM - cross desktop display manager
+- LXDM - LXDE desktop manager
+- MDM - Linux mint desktop manager
+- SDDM - KDE desktop manager
+
+Installing desktop manager package
+`pacman -S DesktopManagerofChoice`
+
+Enabling desktop manager
+`systemcyl enable DesktopManagerofChoice`
+
 </br>
 
-## installing desktop environment</br>
+## Installing Desktop Environment</br>
 <b>GNOME</b></br>
-pacman -S gnome gnome-terminal nautilus gnome-tweaks gnome-control-center gnome-backgrounds</br>
+`pacman -S gnome gnome-terminal nautilus gnome-tweaks gnome-control-center gnome-backgrounds`</br>
 <b>XFCE</b></br>
-pacman -S xfce4 xfce4-goodies xfce-terminal</br>
+`pacman -S xfce4 xfce4-goodies xfce-terminal`</br>
 <b>KDE Plasma</b></br>
-pacman -S plasma konsole dolphin spectacle kdeconnect</br>
+`pacman -S plasma konsole dolphin spectacle kdeconnect`</br>
 </br>
-## installing optional packages</br>
-sudo pacman -S kate gedit firefox</br>
-sudo pacman -S winetricks <--- for running windows application on linux</br>
+
+## Installing Optional Packages</br>
+`sudo pacman -S kate gedit firefox`</br>
+`sudo pacman -S winetricks` <--- for running windows application on linux</br>
 </br>
-reboot</br>
+
+
+## Reboot</br>
+`reboot`</br>
