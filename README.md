@@ -101,7 +101,7 @@ w <--- write current config to drive
 
 - Checking if the mounting position is correct
 
-	​	`mount | grep /dev/'
+	​	`mount | grep /sda` or `mount | grep /nvmen1`
 
 
 
@@ -114,7 +114,7 @@ w <--- write current config to drive
 # Selecting Mirror Server</br>
 Change the mirror server used for package manager
 
-```
+```shell
 reflector --country COUNTRY --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 ```
 
@@ -123,7 +123,7 @@ change `COUNTRY` to your country
 </br>
 
 # Installing Arch Linux to Hard Drive</br>
-```
+```shell
 pacstrap -i /mnt base linux linux-firmware gvim git
 ```
 
@@ -140,7 +140,7 @@ default <--- continue with the intallation
 # Configuring System</br>
 Generating fstab file
 
-```
+```shell
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
 
@@ -154,8 +154,10 @@ Change root to arch installation<br>
 
 ## Setting System Time Zone</br>
 Selecting the time zone <br>
-change `REGION` and `CITY` to your own region and city<br>
-`ln -sf /usr/share/zoneinfo/REGION/CITY /etc/localtime` 
+`ln -sf /usr/share/zoneinfo/Region/City /etc/localtime` 
+
+Generate adjtime file<br>
+`hwclock --stohc`
 
 Generate adjtime file<br>
 `hwclock --systohc`
@@ -172,16 +174,15 @@ yourCountryCode.yourCountryTimeCode
 ```
 </br>
 Generate the changes made to locale.gen file</br>
+
 `locale-gen` 
 
 Open locale.conf file with text editor</br>
 `vim /etc/locale.conf`
 
-#setting the language of the OS   
-for American english
-
 ```
-LANG=en_US.UTF-8
+#setting the language of the OS
+LANG=en_US.UTF-8 #for american english
 ```
 
 </br>
@@ -215,13 +216,13 @@ pacman -S linux-lts linus-lts-headers
 	`mount /dev/sdX1 or nvmenXp1 /boot/EFI` 
 
 3. Installing grub boot manager</br>
-	`grub-install --target=x86_64-efi --bootloader-id=grub-uefi --recheck`
+	`grub-install --target=x86\_64-efi --bootloader-id=grub-uefi --recheck`
 
 4. Making locale directory</br>
 	`mkdir -p /boot/grub/locale` 
 
 5. Copy file to grub directory</br>
-	`cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo`
+	`cp /usr/share/locale/en\\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo`
 	
 6. Generate grub config</br>
 	`grub-mkconfig -o /boot/grub/grub.cfg`
@@ -262,7 +263,7 @@ Make sure repository index is up to date</br>
 `pacman -Syyy`
 
 Install xorg package</br>
-`pacman -S xorg-server`
+`pacman -S xorg`
 
 ## Installing Video Driver</br>
 List every PCIE device on your computer</br>
@@ -278,9 +279,7 @@ List every graphic card/integrated gpu on your device</br>
 `pacman -S mesa xf86-video-amdgpu`</br>
 
 <b>nvidia</b></br>
-`pacman -S nvidia nvidia-libgl mesa`</br>
-`pacman -S lib32-nvidia-utils lib32-nvidia-libgl lib32-mesa-demos libva-vdpau-driver nvidia-settings`</br>
-`pacman -S nvidia-lts` (optional but you need it if you install LTS kernel)</br>
+`pacman -S nvidia-dkms nvidia-utils lib32-nvidia-utils`
 </br>
 
 ## Creating a User</br>
@@ -295,14 +294,9 @@ Creating password for user</br>
 `EDITOR=vim visudo`</br>
 
 ```
-** -- default configuration -- **
-##
-##User privilege specification
-##
-root ALL=(ALL) ALL
-** -- default configuration -- **
-USERNAME ALL=(ALL) ALL <-- add this line to your /etc/sudoers/ file 
+# %wheel ALL=(ALL) ALL
 ```
+uncomment this line</br>
 
 </br>
 
@@ -349,8 +343,8 @@ Enabling desktop manager</br>
 </br>
 
 ## Installing Optional Packages</br>
-`pacman -S kate gedit firefox` <-- web browser and text editor<br>
-`pacman -S winetricks` <--- for running windows application on linux</br>
+`sudo pacman -S kate gedit firefox`</br>
+`sudo pacman -S winetricks` <--- for running windows application on linux</br>
 </br>
 
 
