@@ -222,7 +222,7 @@ pacman -S linux-lts linus-lts-headers
 	`mkdir -p /boot/grub/locale` 
 
 5. Copy file to grub directory</br>
-	`cp /usr/share/locale/en\\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo`
+	`cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo`
 	
 6. Generate grub config</br>
 	`grub-mkconfig -o /boot/grub/grub.cfg`
