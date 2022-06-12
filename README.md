@@ -124,7 +124,7 @@ change `COUNTRY` to your country
 
 # Installing Arch Linux to Hard Drive</br>
 ```shell
-pacstrap -i /mnt base linux linux-firmware gvim git
+pacstrap -i /mnt base linux linux-firmware vim neovim git nano
 ```
 
 You can use `nano` if you want to
@@ -155,9 +155,6 @@ Change root to arch installation<br>
 ## Setting System Time Zone</br>
 Selecting the time zone <br>
 `ln -sf /usr/share/zoneinfo/Region/City /etc/localtime` 
-
-Generate adjtime file<br>
-`hwclock --stohc`
 
 Generate adjtime file<br>
 `hwclock --systohc`
@@ -285,7 +282,7 @@ List every graphic card/integrated gpu on your device</br>
 ## Creating a User</br>
 Creating a user</br>
 `useradd -m -g users -G wheel USERNAME` </br>
-Replace USERNAME with your username</br>
+Replace USERNAME with your username (you cannot use capital letters as username)</br>
 
 Creating password for user</br>
 `passwd USERNAME`
