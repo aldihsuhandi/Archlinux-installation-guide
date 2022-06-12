@@ -53,7 +53,7 @@ n <--- new partition
 //Recommended setup (separating home directory and arch linux directory)
 partition 1 = default default +300M
 partition 2 = default default +(ramvalue)G
-partition 3 = default default +(minimal 30)G
+partition 3 = default default +(minimal 50)G
 partition 4 = default default default
 
 p <--- print current partition
@@ -115,10 +115,11 @@ w <--- write current config to drive
 Change the mirror server used for package manager
 
 ```shell
-reflector --country COUNTRY --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+reflector --country COUNTRY --age 12 --protocol https --protocol http --sort rate --save /etc/pacman.d/mirrorlist --verbose
 ```
 
-change `COUNTRY` to your country
+change `COUNTRY` to your country <br>
+You can also add another country flag if you so desire<br>
 </br>
 </br>
 
