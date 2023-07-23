@@ -189,7 +189,7 @@ LANG=en_US.UTF-8 #for american english
 Boot packages:
 
 ```shell
-pacman -S base-devel grub efibootmgr dosfstools os-prober mtools linux-headers
+pacman -S base-devel efibootmgr dosfstools os-prober mtools linux-headers
 ```
 
 Networking packages:
@@ -207,23 +207,69 @@ pacman -S linux-lts linus-lts-headers
 
 
 ## EFI Setup</br>
-1. Making boot EFI directory</br>
+#### GRUB
+1. Installing grub packages
+    `pacman -S grub`
+
+2. Making boot EFI directory</br>
 	`mkdir /boot/EFI` <--- making boot EFI directory</br>
 
-2. Mounting partition `1` to boot EFI directory</br>
+3. Mounting partition `1` to boot EFI directory</br>
 	`mount /dev/sdX1 or nvmenXp1 /boot/EFI` 
 
-3. Installing grub boot manager</br>
+4. Installing grub boot manager</br>
 	`grub-install --target=x86\_64-efi --bootloader-id=grub-uefi --recheck`
 
-4. Making locale directory</br>
+5. Making locale directory</br>
 	`mkdir -p /boot/grub/locale` 
 
-5. Copy file to grub directory</br>
+6. Copy file to grub directory</br>
 	`cp /usr/share/locale/en\@quot/LC_MESSAGES/grub.mo /boot/grub/locale/en.mo`
 	
-6. Generate grub config</br>
+7. Generate grub config</br>
 	`grub-mkconfig -o /boot/grub/grub.cfg`
+
+#### systemd-boot
+1. Creating boot directory</br>
+	`mkdir /boot` <-- creating boot directory</br>
+
+2. Mounting partition `1` to boot directory</br>
+	`mount /dev/sdX1 or nvmenXp1 /boot` 
+
+3. Installing systemd-boot to /boot directory</br>
+	`bootctl --path=/boot install`
+
+4. Go to /boot/loader directory<br>
+    `cd /boot/loader`
+
+5. Modify loader.conf file<br>
+	`vim loader.conf`
+
+   Follow this example<br>
+
+```sh
+timeout 3
+#console-mode keep
+default arch-*
+```
+
+7. define boot entries<br>
+	`cd entries` <-- go to entries directory, inside /boot/loader directory<br>
+	`touch arch.conf` <-- create archlinux entries configuration file<br>
+
+
+	note:<br>
+	for `linux` and `initrd` option, if you are using custom kernel you can see the needed value inside `/boot` directory.
+	example<br>
+
+```sh
+title Arch Linux	
+linux /vmlinuz-linux 
+initrd /initramfs-linux.img 
+option root=/dev/'sdX3 or nvmenXp3' rw # replace value inside quote with your root partition
+```
+
+
 
 ## Root Password</br>
 `passwd`</br>
